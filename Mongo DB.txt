@@ -1,0 +1,85 @@
+Mongo DB
+1.Case Sensitive
+2.SQL                             MOngoDb
+   Database                        Database
+   Create                            Use
+   Use
+   Tables                          Collections
+   Data,Rows,Columns               NO rows,Columns
+   
+   Documents are stored in the form of key-Value
+
+
+//To create or use database
+
+db.createCollection("StudentDetails")	
+// Insert a document into the collection
+db.StudentDetails.insertOne({Name:"Ragu",Dept:"IT",Marks:97,Location:"Chennai"})
+// To view the documents in the collection
+db.StudentDetails.find()
+//To fetch the document by specifying the key value
+db.StudentDetails.find({Name:"Anu"})
+//Insert more than one value
+db.StudentDetails.insertMany([{Name:"Sathish",Dept:"Mechanical",Marks:90,Location:"Karur"},{Name:"Chandru",Dept:"ECE",Marks:93,Location:"Coimbatore"},{Name:"Sastikha",Dept:"EEE",Marks:100,Location:"Chennai"}])
+// To update or change a value
+
+
+// Create a Databse with the name--MyCompany
+Collection Name: Sales
+Key values- ProductName,UnitPrice,Quantity,SalesAmount Insert 10 Documents
+
+db.Sales.insertMany([{ProductName:"Printer",UnitPrice:2000,Quantity:10,SalesAmount:20000},{ProductName:"Shirt",UnitPrice:500,Quantity:5,SalesAmount:2500},{ProductName:"Laptop",UnitPrice:50000,Quantity:2,SalesAmount:100000},{ProductName:"Bag",UnitPrice:1000,Quantity:4,SalesAmount:4000},{ProductName:"Bag",UnitPrice:900,Quantity:3,SalesAmount:2700},{ProductName:"MousePad",UnitPrice:250,Quantity:4,SalesAmount:1000},{ProductName:"MousePad",UnitPrice:300,Quantity:4,SalesAmount:1200},{ProductName:"Keyboard",UnitPrice:500,Quantity:2,SalesAmount:100},{ProductName:"Projector",UnitPrice:100000,Quantity:1,SalesAmount:100000},{ProductName:"GraphicsCard",UnitPrice:5000,Quantity:4,SalesAmount:20000}])
+
+
+
+Operators in Mongo Db:
+// To fetch the Unit Price Less than 2000 Values
+db.Sales.find({UnitPrice:{$lt:2000}})
+// To fetch the Sales Amount Greater than 100000 Values
+db.Sales.find({SalesAmount:{$gt:10000}})
+// To Fetch the greater than or Equal to Qunatity Values
+db.Sales.find({Quantity:{$gte:5}})
+//To fetch SalesAmount the Less than 20000
+db.Sales.find({SalesAmount:{$lte:2000}})
+// To fetch the Unit price Equal to 1000
+db.Sales.find({UnitPrice:{$eq:1000}})
+// To fetch Quantity is not equal 4
+db.Sales.find({Quantity:{$ne:4}})
+
+
+// Group by functions
+db.Sales.aggregate([{$group:{_id:"$ProductName",TotalNUmberofQuantity:{$sum:"$Quantity"}}}])
+
+//To fetch the average price
+db.Sales.aggregate([{$group:{_id:"$ProductName",AveragePrice:{$avg:"$UnitPrice"}}}])
+// To fetch the count values
+db.Sales.aggregate([{$group:{_id:"$ProductName",Count:{$count:{}}}}])
+// NULL Keyword is for retrive all the count
+db.Sales.aggregate([{$group:{_id:"NULL",Count:{$count:{}}}}])
+
+// To update value if one document
+db.Sales.updateOne({ ProductName: "GraphicsCard" },{ $set: { UnitPrice: 6000 } })
+// To update many value of more than one document
+db.Sales.updateMany({ProductName:"MousePad"},{$set:{Quantity:50}})
+
+//Upseret is a combination of update & insert, if there is a matching count, it will modify the value if no matching field it will add a new document with specified value
+
+db.Sales.updateOne({ProductName:"ColorBox"},{$set:{UnitPrice:700}},{upsert:true})
+
+db.Sales.updateMany({ProductName:"ColorBox"},{$set:{UnitPrice:700,Quantity:5,SalesAmount:3500}},{upsert:true})
+
+// to sort the column value in ascending order
+db.Sales.find().sort({UnitPrice:1})
+//to sort the column value in Descending order
+db.Sales.find().sort({UnitPrice:-1})
+
+
+//Delete functions
+// To delete one Document
+db.Sales.deleteOne({ProductName:"ColorBox"})
+// To delete a collection
+db.Sales.drop()
+db.Sales.drop()
+
+
+
